@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Marc Jordan Oum — IT Technician & Digital Specialist</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --bg2: #111118;
+    --bg3: #16161f;
+    --accent: #00e5a0;
+    --accent2: #0066ff;
+    --accent3: #ff4d6d;
+    --text: #f0f0f5;
+    --text2: #9090a8;
+    --border: rgba(255,255,255,0.07);
+    --card: rgba(255,255,255,0.03);
+    --glow: 0 0 40px rgba(0,229,160,0.15);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* ── CURSOR ─────────────────────────────────────────── */
+  .cursor {
+    width: 10px; height: 10px;
+    background: var(--accent);
+    border-radius: 50%;
+    position: fixed; top: 0; left: 0;
+    pointer-events: none; z-index: 9999;
+    transition: transform 0.1s ease;
+    mix-blend-mode: difference;
+  }
+  .cursor-ring {
+    width: 36px; height: 36px;
+    border: 1.5px solid var(--accent);
+    border-radius: 50%;
+    position: fixed; top: 0; left: 0;
+    pointer-events: none; z-index: 9998;
+    transition: transform 0.18s ease, width 0.2s, height 0.2s, opacity 0.2s;
+    opacity: 0.5;
+  }
+
+  /* ── NOISE OVERLAY ──────────────────────────────────── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 1000; opacity: 0.4;
+  }
+
+  /* ── NAV ────────────────────────────────────────────── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 500;
+    padding: 20px 48px;
+    display: flex; align-items: center; justify-content: space-between;
+    backdrop-filter: blur(20px);
+    background: rgba(10,10,15,0.7);
+    border-bottom: 1px solid var(--border);
+    animation: fadeDown 0.8s ease both;
+  }
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800; font-size: 1.2rem;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--accent); }
+  .nav-links { display: flex; gap: 36px; list-style: none; }
+  .nav-links a {
+    color: var(--text2);
+    text-decoration: none;
+    font-size: 0.88rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+    position: relative;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute; bottom: -4px; left: 0;
+    width: 0; height: 1px;
+    background: var(--accent);
+    transition: width 0.3s ease;
+  }
+  .nav-links a:hover { color: var(--accent); }
+  .nav-links a:hover::after { width: 100%; }
+  .nav-cta {
+    background: var(--accent);
+    color: var(--bg) !important;
+    padding: 10px 22px !important;
+    border-radius: 100px;
+    font-weight: 600 !important;
+    transition: transform 0.2s, box-shadow 0.2s !important;
+  }
+  .nav-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0,229,160,0.3);
+  }
+  .nav-cta::after { display: none !important; }
+
+  /* ── HERO ───────────────────────────────────────────── */
+  #hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 120px 48px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-grid-bg {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(0,229,160,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,229,160,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black 30%, transparent 100%);
+  }
+
+  .hero-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    pointer-events: none;
+  }
+  .orb1 {
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(0,229,160,0.12), transparent 70%);
+    top: -100px; right: -100px;
+    animation: float1 8s ease-in-out infinite;
+  }
+  .orb2 {
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(0,102,255,0.1), transparent 70%);
+    bottom: -50px; left: 10%;
+    animation: float2 10s ease-in-out infinite;
+  }
+
+  .hero-content { position: relative; z-index: 2; max-width: 700px; }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(0,229,160,0.08);
+    border: 1px solid rgba(0,229,160,0.2);
+    border-radius: 100px;
+    padding: 6px 16px;
+    font-size: 0.82rem;
+    color: var(--accent);
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 32px;
+    animation: fadeUp 0.8s 0.2s ease both;
+  }
+  .hero-badge::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  .hero-name {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(3rem, 7vw, 5.5rem);
+    font-weight: 800;
+    line-height: 1.0;
+    letter-spacing: -0.03em;
+    margin-bottom: 8px;
+    animation: fadeUp 0.8s 0.35s ease both;
+  }
+  .hero-name .line2 {
+    color: transparent;
+    -webkit-text-stroke: 1.5px rgba(240,240,245,0.3);
+  }
+
+  .hero-title {
+    font-size: 1.1rem;
+    color: var(--accent);
+    font-weight: 500;
+    margin-bottom: 24px;
+    letter-spacing: 0.02em;
+    animation: fadeUp 0.8s 0.5s ease both;
+  }
+
+  .hero-desc {
+    color: var(--text2);
+    font-size: 1rem;
+    max-width: 520px;
+    line-height: 1.8;
+    margin-bottom: 48px;
+    animation: fadeUp 0.8s 0.65s ease both;
+  }
+
+  .hero-btns {
+    display: flex; gap: 16px; flex-wrap: wrap;
+    animation: fadeUp 0.8s 0.8s ease both;
+  }
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--accent);
+    color: var(--bg);
+    padding: 14px 28px;
+    border-radius: 100px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: transform 0.25s, box-shadow 0.25s;
+  }
+  .btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 32px rgba(0,229,160,0.35);
+  }
+  .btn-secondary {
+    display: inline-flex; align-items: center; gap: 10px;
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 14px 28px;
+    border-radius: 100px;
+    font-weight: 500;
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: border-color 0.25s, background 0.25s, transform 0.25s;
+  }
+  .btn-secondary:hover {
+    border-color: var(--accent);
+    background: rgba(0,229,160,0.05);
+    transform: translateY(-3px);
+  }
+
+  .hero-stats {
+    position: absolute; right: 48px; bottom: 80px;
+    display: flex; gap: 40px;
+    animation: fadeUp 0.8s 1s ease both;
+  }
+  .stat { text-align: center; }
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 0.78rem;
+    color: var(--text2);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-top: 4px;
+  }
+
+  /* ── SECTIONS ───────────────────────────────────────── */
+  section { padding: 100px 48px; }
+
+  .section-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 0.78rem;
+    color: var(--accent);
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .section-tag::before {
+    content: '';
+    width: 24px; height: 1px;
+    background: var(--accent);
+  }
+
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin-bottom: 56px;
+  }
+  .section-title em {
+    font-style: normal;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(240,240,245,0.4);
+  }
+
+  /* ── SERVICES ───────────────────────────────────────── */
+  #services { background: var(--bg2); }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2px;
+  }
+
+  .service-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 40px 36px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s, border-color 0.3s;
+    cursor: none;
+  }
+  .service-card::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(0,229,160,0.05), transparent 60%);
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+  .service-card:hover { transform: translateY(-4px); border-color: rgba(0,229,160,0.25); }
+  .service-card:hover::before { opacity: 1; }
+
+  .service-icon {
+    width: 52px; height: 52px;
+    background: rgba(0,229,160,0.1);
+    border: 1px solid rgba(0,229,160,0.2);
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4rem;
+    margin-bottom: 24px;
+  }
+  .service-num {
+    position: absolute; top: 32px; right: 32px;
+    font-family: 'Syne', sans-serif;
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: rgba(255,255,255,0.03);
+    line-height: 1;
+  }
+  .service-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: var(--text);
+  }
+  .service-desc {
+    color: var(--text2);
+    font-size: 0.92rem;
+    line-height: 1.7;
+    margin-bottom: 24px;
+  }
+  .service-tags {
+    display: flex; flex-wrap: wrap; gap: 8px;
+  }
+  .tag {
+    font-size: 0.76rem;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 4px 12px;
+    color: var(--text2);
+    letter-spacing: 0.02em;
+  }
+
+  /* ── ABOUT ──────────────────────────────────────────── */
+  #about {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .about-visual {
+    position: relative;
+  }
+  .about-card-main {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .about-card-main::after {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+  }
+  .about-avatar {
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Syne', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--bg);
+    margin-bottom: 20px;
+  }
+  .about-name-card {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .about-role-card {
+    color: var(--accent);
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+  }
+  .about-info-row {
+    display: flex; gap: 12px; align-items: center;
+    color: var(--text2);
+    font-size: 0.88rem;
+    margin-bottom: 10px;
+  }
+  .about-info-row span:first-child { color: var(--accent); font-size: 1rem; }
+
+  .lang-bars { margin-top: 28px; }
+  .lang-item { margin-bottom: 14px; }
+  .lang-header {
+    display: flex; justify-content: space-between;
+    font-size: 0.84rem;
+    color: var(--text2);
+    margin-bottom: 6px;
+  }
+  .lang-bar {
+    height: 4px;
+    background: rgba(255,255,255,0.07);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .lang-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    border-radius: 2px;
+    animation: growBar 1.5s ease both;
+    animation-play-state: paused;
+  }
+  .lang-fill.visible { animation-play-state: running; }
+
+  .about-text { }
+  .about-bio {
+    color: var(--text2);
+    line-height: 1.9;
+    margin-bottom: 32px;
+    font-size: 0.97rem;
+  }
+  .about-highlights {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 16px; margin-bottom: 40px;
+  }
+  .highlight {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    transition: border-color 0.3s;
+  }
+  .highlight:hover { border-color: rgba(0,229,160,0.3); }
+  .highlight-icon { font-size: 1.4rem; margin-bottom: 8px; }
+  .highlight-label {
+    font-size: 0.78rem;
+    color: var(--text2);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 4px;
+  }
+  .highlight-val {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+  }
+
+  /* ── SKILLS ─────────────────────────────────────────── */
+  #skills { background: var(--bg2); }
+
+  .skills-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+  }
+  .skill-group {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+  .skill-group:hover {
+    border-color: rgba(0,229,160,0.2);
+    transform: translateY(-4px);
+  }
+  .skill-group-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 20px;
+    display: flex; align-items: center; gap: 10px;
+    color: var(--text);
+  }
+  .skill-group-title span {
+    width: 32px; height: 32px;
+    background: rgba(0,229,160,0.1);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.9rem;
+  }
+  .skill-pills {
+    display: flex; flex-wrap: wrap; gap: 8px;
+  }
+  .skill-pill {
+    padding: 7px 14px;
+    border-radius: 100px;
+    font-size: 0.82rem;
+    font-weight: 500;
+    border: 1px solid var(--border);
+    background: rgba(255,255,255,0.03);
+    color: var(--text2);
+    transition: all 0.2s;
+    letter-spacing: 0.01em;
+  }
+  .skill-pill:hover {
+    background: rgba(0,229,160,0.1);
+    border-color: rgba(0,229,160,0.3);
+    color: var(--accent);
+    transform: translateY(-2px);
+  }
+  .skill-pill.hot {
+    background: rgba(0,229,160,0.08);
+    border-color: rgba(0,229,160,0.25);
+    color: var(--accent);
+  }
+
+  /* ── EXPERIENCE ─────────────────────────────────────── */
+  #experience { }
+
+  .timeline {
+    position: relative;
+    max-width: 800px;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute; left: 18px; top: 0; bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--accent), rgba(0,229,160,0), transparent);
+  }
+
+  .timeline-item {
+    padding-left: 60px;
+    margin-bottom: 48px;
+    position: relative;
+    animation: fadeUp 0.6s ease both;
+  }
+  .timeline-dot {
+    position: absolute; left: 10px; top: 6px;
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 2px solid var(--accent);
+    z-index: 2;
+    transition: background 0.3s;
+  }
+  .timeline-item:hover .timeline-dot {
+    background: var(--accent);
+    box-shadow: 0 0 16px rgba(0,229,160,0.5);
+  }
+  .timeline-date {
+    font-size: 0.78rem;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .timeline-role {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .timeline-company {
+    font-size: 0.88rem;
+    color: var(--text2);
+    margin-bottom: 12px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .timeline-company::before {
+    content: '';
+    width: 4px; height: 4px;
+    background: var(--text2);
+    border-radius: 50%;
+  }
+  .timeline-desc {
+    color: var(--text2);
+    font-size: 0.92rem;
+    line-height: 1.7;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 20px;
+    border-left: 2px solid rgba(0,229,160,0.3);
+  }
+
+  /* ── CONTACT ────────────────────────────────────────── */
+  #contact {
+    background: var(--bg2);
+    text-align: center;
+  }
+
+  .contact-inner {
+    max-width: 640px;
+    margin: 0 auto;
+  }
+  .contact-desc {
+    color: var(--text2);
+    font-size: 1.05rem;
+    margin-bottom: 48px;
+    line-height: 1.8;
+  }
+  .contact-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    margin-bottom: 48px;
+  }
+  .contact-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px 20px;
+    text-decoration: none;
+    color: var(--text);
+    transition: all 0.3s;
+    display: flex; flex-direction: column; align-items: center; gap: 10px;
+  }
+  .contact-card:hover {
+    border-color: rgba(0,229,160,0.3);
+    background: rgba(0,229,160,0.05);
+    transform: translateY(-4px);
+    box-shadow: var(--glow);
+  }
+  .contact-card-icon { font-size: 1.6rem; }
+  .contact-card-label {
+    font-size: 0.8rem;
+    color: var(--text2);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .contact-card-val {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text);
+  }
+
+  .availability-badge {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: rgba(0,229,160,0.08);
+    border: 1px solid rgba(0,229,160,0.2);
+    border-radius: 100px;
+    padding: 12px 24px;
+    color: var(--accent);
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+  .availability-badge::before {
+    content: '';
+    width: 8px; height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  /* ── FOOTER ─────────────────────────────────────────── */
+  footer {
+    padding: 32px 48px;
+    border-top: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 16px;
+  }
+  .footer-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 1rem;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .footer-logo span { color: var(--accent); }
+  .footer-copy {
+    font-size: 0.82rem;
+    color: var(--text2);
+  }
+  .footer-links {
+    display: flex; gap: 24px;
+  }
+  .footer-links a {
+    color: var(--text2);
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--accent); }
+
+  /* ── ANIMATIONS ─────────────────────────────────────── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes float1 {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(-30px, 20px); }
+  }
+  @keyframes float2 {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(20px, -30px); }
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+  @keyframes growBar {
+    from { width: 0; }
+    to { width: var(--w); }
+  }
+
+  .reveal {
+    opacity: 0; transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1; transform: translateY(0);
+  }
+
+  /* ── RESPONSIVE ─────────────────────────────────────── */
+  @media (max-width: 900px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; }
+    #hero { padding: 100px 24px 80px; }
+    .hero-stats { position: static; flex-direction: row; justify-content: flex-start; margin-top: 48px; }
+    section { padding: 72px 24px; }
+    #about { grid-template-columns: 1fr; gap: 40px; }
+    footer { padding: 24px; flex-direction: column; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nav-logo">OMJ<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#about">Profil</a></li>
+    <li><a href="#skills">Compétences</a></li>
+    <li><a href="#experience">Expérience</a></li>
+    <li><a href="#contact" class="nav-cta">Me contacter</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-orb orb1"></div>
+  <div class="hero-orb orb2"></div>
+
+  <div class="hero-content">
+    <div class="hero-badge">Disponible — Freelance · Programmation · Sécurité · Réseau · Caméras de surveillance · IA</div>
+    <h1 class="hero-name">
+      Marc Jordan<br>
+      <span class="line2">Oum</span>
+    </h1>
+    <p class="hero-title">IT Technician · Data Entry Specialist · Graphic Designer</p>
+    <p class="hero-desc">
+      Informaticien BTS basé à Yaoundé, Cameroun. Expert en maintenance réseau,
+      saisie de données, support IT et création graphique. Passionné par les solutions
+      numériques efficaces et la relation client.
+    </p>
+    <div class="hero-btns">
+      <a href="#services" class="btn-primary">
+        <span>Voir mes services</span>
+        <span>→</span>
+      </a>
+      <a href="#contact" class="btn-secondary">
+        <span>📬</span>
+        <span>Me contacter</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="hero-stats">
+    <div class="stat">
+      <div class="stat-num">5+</div>
+      <div class="stat-label">Ans d'expérience</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">100%</div>
+      <div class="stat-label">Satisfaction client</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">3</div>
+      <div class="stat-label">Langues</div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="section-tag reveal">Ce que je fais</div>
+  <h2 class="section-title reveal">Mes <em>services</em><br>professionnels</h2>
+
+  <div class="services-grid">
+    <div class="service-card reveal">
+      <div class="service-num">01</div>
+      <div class="service-icon">🖥️</div>
+      <div class="service-name">Support IT & Maintenance</div>
+      <div class="service-desc">Maintenance préventive et corrective, surveillance infrastructure réseau & serveurs, diagnostic et résolution d'incidents N1/N2. Support à distance disponible.</div>
+      <div class="service-tags">
+        <span class="tag">Réseau</span>
+        <span class="tag">Serveurs</span>
+        <span class="tag">Diagnostic</span>
+        <span class="tag">Remote</span>
+      </div>
+    </div>
+
+    <div class="service-card reveal">
+      <div class="service-num">02</div>
+      <div class="service-icon">📊</div>
+      <div class="service-name">Saisie de données & Data Entry</div>
+      <div class="service-desc">Saisie précise et rapide, traitement de documents, formatage Excel/Word/Google Sheets, archivage numérique. Résultats 100% vérifiés et livrés dans les délais.</div>
+      <div class="service-tags">
+        <span class="tag">Excel</span>
+        <span class="tag">Google Sheets</span>
+        <span class="tag">Word</span>
+        <span class="tag">Archivage</span>
+      </div>
+    </div>
+
+    <div class="service-card reveal">
+      <div class="service-num">03</div>
+      <div class="service-icon">🎨</div>
+      <div class="service-name">Création graphique</div>
+      <div class="service-desc">Conception de cartes de visite, flyers, certificats, bannières et supports de communication visuelle. Design moderne adapté à votre identité de marque.</div>
+      <div class="service-tags">
+        <span class="tag">Graphic Design</span>
+        <span class="tag">Canva</span>
+        <span class="tag">Photoshop</span>
+        <span class="tag">Branding</span>
+      </div>
+    </div>
+
+    <div class="service-card reveal">
+      <div class="service-num">04</div>
+      <div class="service-icon">📱</div>
+      <div class="service-name">Développement Web</div>
+      <div class="service-desc">Création de sites web professionnels, pages de présentation, portfolios et landing pages. Code propre, responsive et optimisé pour tous les appareils.</div>
+      <div class="service-tags">
+        <span class="tag">HTML/CSS</span>
+        <span class="tag">JavaScript</span>
+        <span class="tag">Responsive</span>
+        <span class="tag">SEO</span>
+      </div>
+    </div>
+
+    <div class="service-card reveal">
+      <div class="service-num">05</div>
+      <div class="service-icon">📞</div>
+      <div class="service-name">Téléconseil B2B</div>
+      <div class="service-desc">Mise en relation d'entreprises, qualification de leads, prospection téléphonique et suivi client. Expérience en call center bilingue Français/Anglais.</div>
+      <div class="service-tags">
+        <span class="tag">B2B</span>
+        <span class="tag">Prospection</span>
+        <span class="tag">CRM</span>
+        <span class="tag">Bilingue</span>
+      </div>
+    </div>
+
+    <div class="service-card reveal">
+      <div class="service-num">06</div>
+      <div class="service-icon">🤖</div>
+      <div class="service-name">Services IA & Automatisation</div>
+      <div class="service-desc">Utilisation des outils IA pour optimiser vos workflows, annotation de données pour l'entraînement de modèles, automatisation de tâches répétitives.</div>
+      <div class="service-tags">
+        <span class="tag">IA / ML</span>
+        <span class="tag">Annotation</span>
+        <span class="tag">Automation</span>
+        <span class="tag">MTurk</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-visual reveal">
+    <div class="about-card-main">
+      <div class="about-avatar">MJ</div>
+      <div class="about-name-card">Marc Jordan Oum</div>
+      <div class="about-role-card">IT Technician & Digital Specialist</div>
+
+      <div class="about-info-row"><span>📍</span> Poste Centrale, Yaoundé — Cameroun</div>
+      <div class="about-info-row"><span>🎓</span> BTS Informatique — IUC Douala (2019–2021)</div>
+      <div class="about-info-row"><span>⚖️</span> Licence Droit Privé — ENSET Douala</div>
+      <div class="about-info-row"><span>📅</span> Né le 02 Juin 2001</div>
+      <div class="about-info-row"><span>🌐</span> Fiverr : @claude_nick</div>
+
+      <div class="lang-bars">
+        <div class="section-tag" style="margin-bottom:16px; font-size:0.72rem;">Langues</div>
+        <div class="lang-item">
+          <div class="lang-header"><span>Français</span><span>Native</span></div>
+          <div class="lang-bar"><div class="lang-fill" style="--w:100%"></div></div>
+        </div>
+        <div class="lang-item">
+          <div class="lang-header"><span>Anglais</span><span>Professionnel</span></div>
+          <div class="lang-bar"><div class="lang-fill" style="--w:65%"></div></div>
+        </div>
+        <div class="lang-item">
+          <div class="lang-header"><span>Italien</span><span>Élémentaire</span></div>
+          <div class="lang-bar"><div class="lang-fill" style="--w:25%"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="about-text">
+    <div class="section-tag reveal">À propos</div>
+    <h2 class="section-title reveal">Profil <em>polyvalent</em><br>& rigoureux</h2>
+    <p class="about-bio reveal">
+      Informaticien de formation avec une double expertise en IT et droit, je combine
+      des compétences techniques solides avec un sens aigu de la relation client.
+      Passé par Orange Cameroun pour la maintenance de serveurs, puis le téléconseil B2B,
+      j'apporte une vision complète des environnements numériques professionnels.
+      Disponible pour des missions remote ou sur site.
+    </p>
+
+    <div class="about-highlights reveal">
+      <div class="highlight">
+        <div class="highlight-icon">
+          <svg width="32" height="12" viewBox="0 0 120 45" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="120" height="45" rx="4" fill="#FF6600"/>
+            <text x="50%" y="32" font-family="Arial" font-weight="bold" font-size="22" fill="white" text-anchor="middle">DHL</text>
+          </svg>
+        </div>
+        <div class="highlight-label">Expérience</div>
+        <div class="highlight-val">DHL</div>
+      </div>
+      <div class="highlight">
+        <div class="highlight-icon">
+          <svg width="32" height="14" viewBox="0 0 130 40" xmlns="http://www.w3.org/2000/svg">
+            <text x="0" y="30" font-family="Arial" font-weight="bold" font-size="28" fill="#FF9900">amazon</text>
+          </svg>
+        </div>
+        <div class="highlight-label">Expérience</div>
+        <div class="highlight-val">Amazon</div>
+      </div>
+      <div class="highlight">
+        <div class="highlight-icon">
+          <svg width="32" height="14" viewBox="0 0 120 40" xmlns="http://www.w3.org/2000/svg">
+            <rect width="50" height="40" rx="3" fill="#FF6600"/>
+            <text x="25" y="28" font-family="Arial" font-weight="bold" font-size="18" fill="white" text-anchor="middle">Or</text>
+            <rect x="52" width="68" height="40" rx="3" fill="#000"/>
+            <text x="86" y="28" font-family="Arial" font-weight="bold" font-size="14" fill="white" text-anchor="middle">ange</text>
+          </svg>
+        </div>
+        <div class="highlight-label">Expérience</div>
+        <div class="highlight-val">Orange Cameroun</div>
+      </div>
+      <div class="highlight">
+        <div class="highlight-icon">🌍</div>
+        <div class="highlight-label">Mode de travail</div>
+        <div class="highlight-val">Freelance & Présentiel</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-tag reveal">Expertise</div>
+  <h2 class="section-title reveal">Compétences <em>&</em><br>technologies</h2>
+
+  <div class="skills-container">
+    <div class="skill-group reveal">
+      <div class="skill-group-title"><span>💻</span> Informatique & IT</div>
+      <div class="skill-pills">
+        <span class="skill-pill hot">Maintenance réseau</span>
+        <span class="skill-pill hot">Surveillance serveurs</span>
+        <span class="skill-pill hot">Windows Server</span>
+        <span class="skill-pill hot">Diagnostic N1/N2</span>
+        <span class="skill-pill hot">Hardware</span>
+        <span class="skill-pill hot">Network Admin</span>
+        <span class="skill-pill hot">Remote Support</span>
+        <span class="skill-pill hot">Sécurité informatique</span>
+        <span class="skill-pill hot">Caméras surveillance</span>
+        <span class="skill-pill hot">Intelligence Artificielle</span>
+      </div>
+    </div>
+
+    <div class="skill-group reveal">
+      <div class="skill-group-title"><span>📋</span> Pack Office & Bureautique</div>
+      <div class="skill-pills">
+        <span class="skill-pill hot">Microsoft Excel</span>
+        <span class="skill-pill hot">Word</span>
+        <span class="skill-pill hot">Google Sheets</span>
+        <span class="skill-pill hot">PowerPoint</span>
+        <span class="skill-pill hot">Google Docs</span>
+        <span class="skill-pill hot">Data Entry</span>
+        <span class="skill-pill hot">Archivage</span>
+      </div>
+    </div>
+
+    <div class="skill-group reveal">
+      <div class="skill-group-title"><span>🎨</span> Design & Création</div>
+      <div class="skill-pills">
+        <span class="skill-pill hot">Graphic Editing</span>
+        <span class="skill-pill hot">Canva</span>
+        <span class="skill-pill hot">Photoshop</span>
+        <span class="skill-pill hot">Identité visuelle</span>
+        <span class="skill-pill hot">Cartes de visite</span>
+        <span class="skill-pill hot">Flyers</span>
+      </div>
+    </div>
+
+    <div class="skill-group reveal">
+      <div class="skill-group-title"><span>🌐</span> Web & Développement</div>
+      <div class="skill-pills">
+        <span class="skill-pill hot">Web Development</span>
+        <span class="skill-pill hot">Python</span>
+        <span class="skill-pill hot">HTML / CSS</span>
+        <span class="skill-pill hot">JavaScript</span>
+        <span class="skill-pill hot">Responsive Design</span>
+        <span class="skill-pill hot">Data Analysis</span>
+        <span class="skill-pill hot">Technical Analysis</span>
+      </div>
+    </div>
+
+    <div class="skill-group reveal">
+      <div class="skill-group-title"><span>🤝</span> Gestion & Management</div>
+      <div class="skill-pills">
+        <span class="skill-pill hot">Comptabilité</span>
+        <span class="skill-pill hot">Gestion stocks</span>
+        <span class="skill-pill hot">Logistique</span>
+        <span class="skill-pill hot">Management équipe</span>
+        <span class="skill-pill hot">Droit privé</span>
+        <span class="skill-pill hot">Microsoft Teams</span>
+      </div>
+    </div>
+
+    <div class="skill-group reveal">
+      <div class="skill-group-title"><span>📞</span> Relation Client & B2B</div>
+      <div class="skill-pills">
+        <span class="skill-pill hot">Téléconseil B2B</span>
+        <span class="skill-pill hot">Qualification leads</span>
+        <span class="skill-pill hot">Assistance client</span>
+        <span class="skill-pill hot">Prospection</span>
+        <span class="skill-pill hot">Suivi dossiers</span>
+        <span class="skill-pill hot">Bilingue FR/EN</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-tag reveal">Parcours</div>
+  <h2 class="section-title reveal">Expériences <em>professionnelles</em></h2>
+
+  <div class="timeline">
+    <div class="timeline-item reveal">
+      <div class="timeline-dot"></div>
+      <div class="timeline-date">Fév. – Avr. 2026</div>
+      <div class="timeline-role">Téléconseiller B2B</div>
+      <div class="timeline-company">Call Center CALL VIP · Tsinga, Yaoundé</div>
+      <div class="timeline-desc">Mise en relation PME camerounaises avec des OPCO en France. Qualification des leads, prospection et suivi des dossiers clients.</div>
+    </div>
+
+    <div class="timeline-item reveal">
+      <div class="timeline-dot"></div>
+      <div class="timeline-date">Nov. 2024 – Fév. 2026</div>
+      <div class="timeline-role">Stagiaire Informatique</div>
+      <div class="timeline-company">Orange Cameroun · AKWA, Douala</div>
+      <div class="timeline-desc">Maintenance préventive et corrective des serveurs. Surveillance des infrastructures réseau et systèmes. Diagnostic et résolution d'incidents techniques (N1/N2).</div>
+    </div>
+
+    <div class="timeline-item reveal">
+      <div class="timeline-dot"></div>
+      <div class="timeline-date">Sep. 2023 – Juin 2024</div>
+      <div class="timeline-role">Responsable Comptes & Cyber</div>
+      <div class="timeline-company">Fast Food Corneille · AKWA, Douala</div>
+      <div class="timeline-desc">Gestion comptabilité quotidienne, administration cyber café. Conception graphique (cartes de visite, prix d'excellence). Numérisation et envoi de documents administratifs.</div>
+    </div>
+
+    <div class="timeline-item reveal">
+      <div class="timeline-dot"></div>
+      <div class="timeline-date">Nov. 2021 – Juin 2023</div>
+      <div class="timeline-role">Responsable Maintenance & Logistique</div>
+      <div class="timeline-company">Boutique Orty Bell · PK11, Douala</div>
+      <div class="timeline-desc">Maintenance des équipements informatiques et électroniques. Gestion des stocks et suivi des commandes fournisseurs.</div>
+    </div>
+
+    <div class="timeline-item reveal">
+      <div class="timeline-dot"></div>
+      <div class="timeline-date">2019 – 2021</div>
+      <div class="timeline-role">Responsable Maintenance Plateformes Connectées</div>
+      <div class="timeline-company">
+        <svg width="28" height="11" viewBox="0 0 120 45" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;margin-right:6px"><rect width="120" height="45" rx="4" fill="#FF6600"/><text x="50%" y="32" font-family="Arial" font-weight="bold" font-size="22" fill="white" text-anchor="middle">DHL</text></svg>
+        DHL · Douala
+      </div>
+      <div class="timeline-desc">Maintenance et supervision des plateformes connectées et systèmes logistiques. Gestion des équipements informatiques et suivi des infrastructures réseau au sein des opérations DHL.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-inner">
+    <div class="section-tag reveal" style="justify-content:center;">Contact</div>
+    <h2 class="section-title reveal" style="text-align:center;">Travaillons<br><em>ensemble</em></h2>
+    <p class="contact-desc reveal">
+      Disponible pour des missions freelance, des contrats à distance ou des projets
+      ponctuels. N'hésitez pas à me contacter pour discuter de votre besoin.
+    </p>
+
+    <div class="contact-cards reveal">
+      <a href="mailto:oummarcjordan@gmail.com" class="contact-card">
+        <div class="contact-card-icon">📧</div>
+        <div class="contact-card-label">Email</div>
+        <div class="contact-card-val">oummarcjordan@gmail.com</div>
+      </a>
+      <a href="tel:+237688578748" class="contact-card">
+        <div class="contact-card-icon">📱</div>
+        <div class="contact-card-label">Téléphone / WhatsApp</div>
+        <div class="contact-card-val">+237 6 88 57 87 48</div>
+      </a>
+      <a href="https://www.fiverr.com/claude_nick" target="_blank" class="contact-card">
+        <div class="contact-card-icon">🟢</div>
+        <div class="contact-card-label">Fiverr</div>
+        <div class="contact-card-val">@claude_nick</div>
+      </a>
+      <a href="#" class="contact-card">
+        <div class="contact-card-icon">📍</div>
+        <div class="contact-card-label">Localisation</div>
+        <div class="contact-card-val">Yaoundé, Cameroun</div>
+      </a>
+    </div>
+
+    <div class="availability-badge reveal">
+      Actuellement disponible pour nouvelles missions
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <a href="#hero" class="footer-logo">OMJ<span>.</span></a>
+  <div class="footer-copy">© 2026 Marc Jordan Oum — Tous droits réservés</div>
+  <div class="footer-links">
+    <a href="#services">Services</a>
+    <a href="#about">Profil</a>
+    <a href="#contact">Contact</a>
+  </div>
+</footer>
+
+<script>
+  // Cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.transform = `translate(${mx - 5}px, ${my - 5}px)`;
+  });
+
+  function animateRing() {
+    rx += (mx - rx - 18) * 0.12;
+    ry += (my - ry - 18) * 0.12;
+    ring.style.transform = `translate(${rx}px, ${ry}px)`;
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+
+  document.querySelectorAll('a, button, .service-card, .skill-pill').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursor.style.transform += ' scale(2)';
+      ring.style.width = '56px';
+      ring.style.height = '56px';
+      ring.style.opacity = '0.3';
+    });
+    el.addEventListener('mouseleave', () => {
+      ring.style.width = '36px';
+      ring.style.height = '36px';
+      ring.style.opacity = '0.5';
+    });
+  });
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+          // Animate lang bars
+          entry.target.querySelectorAll('.lang-fill').forEach(bar => {
+            bar.classList.add('visible');
+            bar.style.width = bar.style.getPropertyValue('--w') || getComputedStyle(bar).getPropertyValue('--w');
+          });
+        }, i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  reveals.forEach(el => observer.observe(el));
+
+  // Lang bar fix
+  document.querySelectorAll('.lang-fill').forEach(bar => {
+    const w = bar.style.cssText.match(/--w:\s*([^;]+)/)?.[1];
+    if (w) bar.style.setProperty('--w', w);
+  });
+
+  // Smooth active nav
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 100) current = s.id;
+    });
+    navLinks.forEach(link => {
+      link.style.color = link.getAttribute('href') === '#' + current
+        ? 'var(--accent)' : '';
+    });
+  });
+</script>
+</body>
+</html>
